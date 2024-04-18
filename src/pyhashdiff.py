@@ -85,9 +85,9 @@ def compare_directories(dir1, dir2):
     results = {}
     for file in unique_files:
         if file in files1:
-            results[str(file)] = "Only in " + str(dir1)
+            results[str(file)] = "UNIQ: Only in " + str(dir1)
         else:
-            results[str(file)] = "Only in " + str(dir2)
+            results[str(file)] = "UNIQ: Only in " + str(dir2)
 
     common_files = files1.intersection(files2)
     for file in common_files:
@@ -114,7 +114,11 @@ def main():
 
     if path1.is_file() and path2.is_file():
         same, message = compare_files(path1, path2)
-        print(f"Comparison result: {message}")
+        if same:
+            print(f"DIFF: {message}")
+        else:
+            print(f"SAME: {message}")
+
     elif path1.is_dir() and path2.is_dir():
         results = compare_directories(path1, path2)
         for file, result in results.items():
