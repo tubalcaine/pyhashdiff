@@ -30,7 +30,7 @@ Where:
 python pyhashdiff.py file1.txt file2.txt
 ```
 
-1. Comparing two directories
+2. **Comparing two directories**
 
 ```
 bash
