@@ -32,8 +32,7 @@ python pyhashdiff.py file1.txt file2.txt
 
 2. **Comparing two directories**
 
-```
-bash
+```bash
 python pyhashdiff.py dir1/ dir2/
 ```
 
@@ -46,4 +45,4 @@ This will recursively compare the directories and list differences in file exist
 
 ## License
 
-This project is licensed under the GNU GPL v3 License - see the [LICENSE](LICENSE.md) file for details.
+This project is licensed under the GNU GPL v3 License - see the [LICENSE](LICENSE) file for details.
