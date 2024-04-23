@@ -77,26 +77,21 @@ def compare_directories(dir1, dir2):
         dict: A dictionary where the keys are file paths relative to the directories,
         and the values are strings describing the result of the comparison.
     """
-    files1 = {f for f in Path(dir1).rglob("*") if f.is_file()}
-    files2 = {f for f in Path(dir2).rglob("*") if f.is_file()}
-    # If needed: all_files = files1.union(files2)
+    files1 = {f.relative_to(dir1) for f in Path(dir1).rglob("*") if f.is_file()}
+    files2 = {f.relative_to(dir2) for f in Path(dir2).rglob("*") if f.is_file()}
     unique_files = files1.symmetric_difference(files2)
-
     results = {}
     for file in unique_files:
         if file in files1:
             results[str(file)] = "UNIQ: Only in " + str(dir1)
         else:
             results[str(file)] = "UNIQ: Only in " + str(dir2)
-
     common_files = files1.intersection(files2)
     for file in common_files:
-        relative_path = file.relative_to(dir1)
-        counterpart = Path(dir2) / relative_path
-        same, message = compare_files(str(file), str(counterpart))
+        counterpart = Path(dir2) / file
+        same, message = compare_files(str(Path(dir1) / file), str(counterpart))
         if not same:
-            results[str(relative_path)] = message
-
+            results[str(file)] = message
     return results
 
 
