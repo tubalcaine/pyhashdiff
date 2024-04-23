@@ -24,14 +24,17 @@ def md5_hash(file_path):
         file_path (str): The path to the file.
 
     Returns:
-        str: The MD5 hash of the file.
+        str: The MD5 hash of the file, or None if an exception occurs.
 
     """
-    hash_md5 = hashlib.md5()
-    with open(file_path, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            hash_md5.update(chunk)
-    return hash_md5.hexdigest()
+    try:
+        hash_md5 = hashlib.md5()
+        with open(file_path, "rb") as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash_md5.update(chunk)
+        return hash_md5.hexdigest()
+    except Exception:
+        return None
 
 
 def compare_files(file1, file2):
@@ -56,8 +59,13 @@ def compare_files(file1, file2):
         return (False, f"Sizes differ: {size1} != {size2}")
     md5_1 = md5_hash(file1)
     md5_2 = md5_hash(file2)
+
+    if md5_1 is None or md5_2 is None:
+        return (False, "Error calculating MD5 hash.")
+
     if md5_1 != md5_2:
         return (False, f"MD5 hashes differ: {md5_1} != {md5_2}")
+
     return (True, "Files are the same.")
 
 
