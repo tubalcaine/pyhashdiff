@@ -33,7 +33,8 @@ def md5_hash(file_path):
             for chunk in iter(lambda: f.read(4096), b""):
                 hash_md5.update(chunk)
         return hash_md5.hexdigest()
-    except Exception:
+    except (IOError, FileNotFoundError) as e:
+        print(f"Error reading file {file_path}: {e}")
         return None
 
 
